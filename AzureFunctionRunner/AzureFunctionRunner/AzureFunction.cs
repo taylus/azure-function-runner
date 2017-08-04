@@ -10,13 +10,13 @@ namespace AzureFunctionRunner
     /// </summary>
     public static class AzureFunction
     {
-        public static async Task<HttpResponseMessage> Run(HttpRequestMessage request, TraceWriter log)
+        public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
         {
-            log.Verbose("Request:\n" + request);
-            if (request.Content != null) log.Verbose("Request body:\n" + await request.Content.ReadAsStringAsync());
+            log.Verbose("Request:\n" + req);
+            if (req.Content != null) log.Verbose("Request body:\n" + await req.Content.ReadAsStringAsync());
 
             //parse request for a name to greet
-            dynamic requestData = await request.Content.ReadAsAsync<object>();
+            dynamic requestData = await req.Content.ReadAsAsync<object>();
             string name = requestData.name;
 
             var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent("Hello, " + name + "!") };
